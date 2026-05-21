@@ -1,1 +1,512 @@
-# portofolio
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sipa Natasya — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink:    #0f0e17;
+      --cream:  #fffcf5;
+      --accent: #e8522a;
+      --muted:  #6b6868;
+      --card:   #f7f4ee;
+      --border: #e2ddd6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(255,252,245,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.03em; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+    }
+    .hero-text { }
+    .badge {
+      display: inline-block;
+      background: var(--accent); color: #fff;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem; border-radius: 999px;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .6s .1s forwards;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .6s .2s forwards;
+    }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.75;
+      color: var(--muted); max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp .6s .35s forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .6s .5s forwards;
+    }
+    .btn {
+      padding: .85rem 2rem; border-radius: 999px;
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+    .btn-primary { background: var(--ink); color: var(--cream); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+
+    /* hero visual */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; animation: fadeUp .6s .4s forwards;
+    }
+    .avatar-wrap {
+      position: relative; width: 340px; height: 340px;
+    }
+    .avatar-ring {
+      position: absolute; inset: 0;
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background: linear-gradient(135deg, var(--accent) 0%, #f0a070 100%);
+      animation: morph 8s ease-in-out infinite;
+    }
+    .avatar-inner {
+      position: absolute; inset: 12px;
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      animation: morph 8s ease-in-out infinite reverse;
+    }
+    .avatar-initials {
+      font-family: 'Syne', sans-serif;
+      font-size: 4.5rem; font-weight: 800;
+      color: var(--accent); letter-spacing: -0.05em;
+    }
+    .avatar-tag {
+      font-size: 0.75rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.05em;
+      text-transform: uppercase; margin-top: 0.25rem;
+    }
+    @keyframes morph {
+      0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+      25%      { border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
+      50%      { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; }
+      75%      { border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%; }
+    }
+
+    /* floating chips */
+    .chip {
+      position: absolute;
+      background: var(--ink); color: #fff;
+      font-size: 0.72rem; font-weight: 600;
+      padding: .45rem 1rem; border-radius: 999px;
+      white-space: nowrap;
+      animation: float 4s ease-in-out infinite;
+    }
+    .chip:nth-child(3) { top: 10%; right: -30px; animation-delay: 0s; }
+    .chip:nth-child(4) { bottom: 15%; left: -40px; animation-delay: 1.5s; }
+    .chip:nth-child(5) { top: 55%; right: -50px; animation-delay: .8s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.75;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--card); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .skill-card {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
+    .skill-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--ink); display: flex; align-items: center;
+      justify-content: center; font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .skill-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
+    .skill-card p  { font-size: .875rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .project-card {
+      border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,.09); }
+    .project-thumb {
+      height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .thumb-1 { background: linear-gradient(135deg,#1a1a2e,#16213e); }
+    .thumb-2 { background: linear-gradient(135deg,#2d4a22,#4a7c35); }
+    .thumb-3 { background: linear-gradient(135deg,#3d1a00,#a84a00); }
+    .project-body { padding: 1.5rem; }
+    .project-body h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: .5rem; }
+    .project-body p  { font-size: .875rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .tag {
+      font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+      background: var(--card); border: 1px solid var(--border);
+      padding: .25rem .75rem; border-radius: 999px;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--card); }
+    .timeline { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid; grid-template-columns: 120px 1px 1fr;
+      gap: 0 2rem; padding-bottom: 2.5rem;
+    }
+    .t-year { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .85rem; color: var(--accent); padding-top: 4px; text-align: right; }
+    .t-line { background: var(--border); position: relative; }
+    .t-line::before {
+      content: ''; position: absolute;
+      top: 6px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--cream);
+    }
+    .t-content h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .25rem; }
+    .t-content .t-sub { font-size: .8rem; color: var(--accent); font-weight: 600; margin-bottom: .5rem; }
+    .t-content p { font-size: .875rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-box {
+      max-width: 520px; margin: 3rem auto 0;
+      background: var(--ink); border-radius: 24px;
+      padding: 3rem; color: #fff;
+    }
+    .contact-box h3 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem; }
+    .contact-box p  { font-size: .9rem; opacity: .7; margin-bottom: 2rem; line-height: 1.75; }
+    .contact-email {
+      display: inline-block;
+      font-size: 1rem; font-weight: 600;
+      color: #fff; text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,.3);
+      padding: .85rem 2rem; border-radius: 999px;
+      transition: background .2s;
+    }
+    .contact-email:hover { background: rgba(255,255,255,.1); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-size: .8rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 3rem; }
+      .hero-visual { order: -1; }
+      .avatar-wrap { width: 240px; height: 240px; }
+      .avatar-initials { font-size: 3rem; }
+      section { padding: 4rem 1.5rem; }
+      .timeline-item { grid-template-columns: 70px 1px 1fr; gap: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">sipa<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="badge">Open to Remote Opportunities</span>
+    <h1>Hi, I'm <em>Sipa</em><br/>Informatics<br/>Student &amp; Dev</h1>
+    <p class="hero-desc">
+      Final-year Informatics Engineering student passionate about
+      <strong>web development</strong> and <strong>data analytics</strong>.
+      I build clean, functional things and analyse data to find meaningful insights.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View My Projects</a>
+      <a href="#contact"  class="btn btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar-inner">
+        <span class="avatar-initials">SN</span>
+        <span class="avatar-tag">Web Dev · Data</span>
+      </div>
+      <div class="chip">SQL ✦</div>
+      <div class="chip">Networking ✦</div>
+      <div class="chip">HTML / CSS ✦</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">What I Work With</p>
+    <h2 class="section-title">Skills &amp; Tools</h2>
+    <p class="section-sub">A mix of technical skills I have built through coursework, self-study, and hands-on projects.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">🗄️</div>
+      <h3>Database &amp; SQL</h3>
+      <p>Data querying, analysis, and schema design using SQL Server Management Studio. Experienced with JOINs, subqueries, stored procedures, and ERD modelling.</p>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🌐</div>
+      <h3>Web Development</h3>
+      <p>Building web interfaces with HTML and CSS. Comfortable working in Netbeans IDE and understanding the full development lifecycle from planning to deployment.</p>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔌</div>
+      <h3>Networking</h3>
+      <p>Cisco Packet Tracer simulations including mail server configuration, DNS setup, routing, switching, and subnetting based on OSI and TCP/IP models.</p>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🧊</div>
+      <h3>3D Modelling</h3>
+      <p>Object modelling and rendering in Blender — including geometry creation, UV unwrapping, texture/material assignment, and final scene rendering.</p>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📊</div>
+      <h3>Data Analysis</h3>
+      <p>Extracting and interpreting data from relational databases to produce structured analytical reports. Case studies in academic, healthcare, and HR datasets.</p>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🤝</div>
+      <h3>Collaboration</h3>
+      <p>Experienced in remote-style asynchronous teamwork across multiple group projects. Strong time management, documentation habits, and async communication.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">Things I've Built</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">Selected academic and self-directed projects that show my skills in action.</p>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-thumb thumb-1">🗄️</div>
+      <div class="project-body">
+        <h3>Hospital &amp; Student Database Analysis</h3>
+        <p>Performed end-to-end data analysis on multiple datasets — student records, faculty data, patient management, and pharmaceutical inventory — using complex SQL queries to extract actionable insights.</p>
+        <div class="tags">
+          <span class="tag">SQL Server</span>
+          <span class="tag">Data Analysis</span>
+          <span class="tag">SSMS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-thumb thumb-2">🌐</div>
+      <div class="project-body">
+        <h3>Team Web Application Project</h3>
+        <p>Led coordination for a 6-member team across a 3-month development cycle. Designed and implemented the HTML/CSS page structure and documented the full project workflow from planning to delivery.</p>
+        <div class="tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Netbeans IDE</span>
+          <span class="tag">Team Lead</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-thumb thumb-3">🧊</div>
+      <div class="project-body">
+        <h3>3D Study Desk Scene — Blender</h3>
+        <p>Collaborated with a 6-person team to model and render a fully detailed 3D study desk scene. Responsible for geometry modelling, material/texture mapping, and final render output, delivered in 2 weeks.</p>
+        <div class="tags">
+          <span class="tag">Blender</span>
+          <span class="tag">3D Modelling</span>
+          <span class="tag">Rendering</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-label">Background</p>
+    <h2 class="section-title">Education &amp; Training</h2>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="t-year">2023</div>
+      <div class="t-line"></div>
+      <div class="t-content">
+        <h3>3D Object Modelling — Computer Graphics Course</h3>
+        <div class="t-sub">Universitas Gunadarma · Semester 5</div>
+        <p>Collaborative 3D modelling project using Blender. Led geometry and texture work in a 6-person team, delivering a complete scene in 2 weeks.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="t-year">2021–22</div>
+      <div class="t-line"></div>
+      <div class="t-content">
+        <h3>SQL Server for Data Analytics — Self-Directed Course</h3>
+        <div class="t-sub">Independent Training · Semester 4</div>
+        <p>Advanced SQL querying on real-world datasets. Produced analytical reports summarising insights from thousands of records across multiple domains.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="t-year">2021–22</div>
+      <div class="t-line"></div>
+      <div class="t-content">
+        <h3>Cisco Network Configuration — Self-Directed Course</h3>
+        <div class="t-sub">Independent Training · Semester 3</div>
+        <p>Configured mail servers, DNS, and multi-device networks in Cisco Packet Tracer. Studied routing, switching, and subnetting concepts in depth.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="t-year">2021</div>
+      <div class="t-line"></div>
+      <div class="t-content">
+        <h3>Web Application Development — Programming Algorithms</h3>
+        <div class="t-sub">Universitas Gunadarma · Semester 1</div>
+        <p>Led a 6-member team through a 3-month web development project using Netbeans IDE, covering full SDLC from planning to deployment.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="t-year">2020</div>
+      <div class="t-line"></div>
+      <div class="t-content">
+        <h3>S1 Informatics Engineering — Universitas Gunadarma</h3>
+        <div class="t-sub">GPA 3.20 / 4.00 · Final Year</div>
+        <p>Bachelor's degree in Informatics Engineering, covering algorithms, computer graphics, databases, networking, and software development.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">Let's Connect</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-sub" style="margin: 0 auto;">I'm actively looking for remote opportunities in web development or data analytics. Feel free to reach out!</p>
+  </div>
+  <div class="contact-box reveal">
+    <h3>Open to Remote Work 🌍</h3>
+    <p>Whether it's a full-time role, part-time contract, or freelance project — I'd love to hear about it. Let's build something together.</p>
+    <a href="mailto:natasyaas0811@gmail.com" class="contact-email">natasyaas0811@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 Sipa Natasya Ainul Sapa · Built with HTML &amp; CSS · Depok, Indonesia</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
